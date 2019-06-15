@@ -2,17 +2,29 @@
 
 var floydWarshall = require('ml-floyd-warshall');
 var Matrix = require('ml-matrix').Matrix;
+
 /**
+ * Returns an array of all the different atom diaIDs that are connected
+ *
  * This function exports a list of all shortest paths among each pair of atoms in the molecule.
  * It is possible to filter out the list by atomLabel and min/max length. The resulting array will
  * contains both, the diasterotopicAtomID and the atomIDs between the atom in the path. This is important
  * because it allows to differentiate chemically equivalent atoms from magentically equivalent atoms.
- */
+
+ * {object} [options={}]
+ * {string} [options.fromLabel='']:q!
+ * {string} [options.toLabel='']
+ * {number} [options.minLength=1]
+ * {number} [options.maxLength=4]
+*/
+
 module.exports = function getAllPaths(options = {}) {
-  var fromLabel = options.fromLabel || '';
-  var toLabel = options.toLabel || '';
-  var minLength = options.minLength === undefined ? 1 : options.minLength;
-  var maxLength = options.maxLength === undefined ? 4 : options.maxLength;
+  const {
+    fromLabel = '',
+    toLabel = '',
+    minLength = 1,
+    maxLength = 4
+  } = options;
 
   // we need to find all the atoms 'fromLabel' and 'toLabel'
   var results = {};
